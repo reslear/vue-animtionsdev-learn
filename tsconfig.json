@@ -1,5 +1,12 @@
 {
   "files": [],
+  "include": [
+    "./typed-router.d.ts"
+  ],
+  "compilerOptions": {
+    "module": "preserve",
+    "moduleResolution": "Bundler"
+  },
   "references": [
     {
       "path": "./tsconfig.app.json"

@@ -1,30 +1,86 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { routes } from 'vue-router/auto-routes'
+import { onClickOutside, useToggle } from '@vueuse/core'
+
+const router = useRouter()
+const isDisplaySide = ref(false)
+const toggleSide = useToggle(isDisplaySide)
+
+const aside = ref(null)
+onClickOutside(aside, () => toggleSide(false), {
+  capture: false,
+})
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <aside ref="aside" class="aside" v-show="isDisplaySide">
+    <div class="menu">
+      <template v-for="{ path, name } in routes">
+        <a
+          class="menu-link"
+          :href="path"
+          @click.prevent="router.push({ path })"
+          >{{ name }}</a
+        >
+      </template>
+    </div>
+  </aside>
+
+  <button
+    class="burder-button"
+    :class="isDisplaySide ? 'active' : ''"
+    type="button"
+    @click.stop="toggleSide()"
+  >
+    <template v-if="isDisplaySide">✕</template>
+    <template v-else>☰</template>
+  </button>
+
+  <div><RouterView /></div>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.aside {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #fff;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 1px 1px 5px rgb(0, 0, 0, 0.1);
+  padding: 5px 0;
+  z-index: 1;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: start;
+  padding: 8px;
+  .menu-link {
+    font-size: 14px;
+    display: block;
+  }
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+.burder-button {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  z-index: 2;
+  opacity: 0.1;
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  font-size: small;
+  &:hover,
+  &:active,
+  &.active {
+    opacity: 1;
+  }
 }
 </style>
