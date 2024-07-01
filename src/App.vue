@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { routes } from 'vue-router/auto-routes'
 import { onClickOutside, useToggle } from '@vueuse/core'
+import { HeroProvider } from 'hero-motion'
 
 const router = useRouter()
 const isDisplaySide = ref(false)
@@ -12,33 +13,37 @@ const aside = ref(null)
 onClickOutside(aside, () => toggleSide(false), {
   capture: false,
 })
+
+console.log(routes)
 </script>
 
 <template>
-  <aside ref="aside" class="aside" v-show="isDisplaySide">
-    <div class="menu">
-      <template v-for="{ path, name } in routes">
-        <a
-          class="menu-link"
-          :href="path"
-          @click.prevent="router.push({ path })"
-          >{{ name }}</a
-        >
-      </template>
-    </div>
-  </aside>
+  <HeroProvider :transition="{ type: 'keyframes' }">
+    <aside ref="aside" class="aside" v-show="isDisplaySide">
+      <div class="menu">
+        <template v-for="{ path, name } in routes">
+          <a
+            class="menu-link"
+            :href="path"
+            @click.prevent="router.push({ path })"
+            >{{ name ?? path }}</a
+          >
+        </template>
+      </div>
+    </aside>
 
-  <button
-    class="burder-button"
-    :class="isDisplaySide ? 'active' : ''"
-    type="button"
-    @click.stop="toggleSide()"
-  >
-    <template v-if="isDisplaySide">✕</template>
-    <template v-else>☰</template>
-  </button>
+    <button
+      class="burder-button"
+      :class="isDisplaySide ? 'active' : ''"
+      type="button"
+      @click.stop="toggleSide()"
+    >
+      <template v-if="isDisplaySide">✕</template>
+      <template v-else>☰</template>
+    </button>
 
-  <div><RouterView /></div>
+    <div><RouterView /></div>
+  </HeroProvider>
 </template>
 
 <style scoped>

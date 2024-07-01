@@ -1,15 +1,4 @@
-<template>
-  <div class="wrapper">
-    <button class="button" @click="toggleAnimate()">Animate</button>
-    <div ref="box" class="element"></div>
-  </div>
-</template>
-
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
-import { useSpring, useMotionProperties } from '@vueuse/motion'
-import { useToggle } from '@vueuse/core'
-
 const box = ref<HTMLElement | null>(null)
 const { motionProperties } = useMotionProperties(box, {
   scale: 1,
@@ -35,12 +24,20 @@ watch(shouldAnimate, (value) => {
 })
 </script>
 
+<template>
+  <div class="wrapper">
+    <button class="button" @click="toggleAnimate()">Animate</button>
+    <div ref="box" class="element"></div>
+  </div>
+</template>
+
 <style>
 .wrapper {
   display: grid;
-  height: 100vh;
-  width: 100vw;
   place-items: center;
+  height: 100%;
+  width: 100%;
+  @apply gap-20;
 }
 
 .element {
@@ -54,5 +51,8 @@ watch(shouldAnimate, (value) => {
   padding: 8px 16px;
   border-radius: 8px;
   font-size: 14px;
+  background: white;
+
+  @apply text-neutral-900;
 }
 </style>
