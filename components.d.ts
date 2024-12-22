@@ -7,7 +7,13 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AnimatePresence: typeof import('motion-v')['AnimatePresence']
     DemoBox: typeof import('./src/components/DemoBox.vue')['default']
+    LayoutGroup: typeof import('motion-v')['LayoutGroup']
+    Motion: typeof import('motion-v')['Motion']
+    NavLink: typeof import('./src/components/NavLink.vue')['default']
+    NavLink_copy: typeof import('./src/components/NavLink_copy.vue')['default']
+    NavLinkGroup: typeof import('./src/components/NavLinkGroup.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

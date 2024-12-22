@@ -1,36 +1,35 @@
 <script lang="ts" setup>
-import { Hero } from 'hero-motion'
-
 const [showSecond, toggleShowSecond] = useToggle(false)
 </script>
 
 <template>
   <div class="wrapper">
-    <button layout class="button" @click="toggleShowSecond()">Animate</button>
+    <button class="button" @click="toggleShowSecond()">Animate</button>
 
-    <div
-      :style="{
-        width: showSecond ? '96px' : '48px',
-        height: showSecond ? '96px' : '48px',
-      }"
-    >
-      <Hero
-        as="div"
-        v-if="showSecond"
-        layout-id="rectangle"
-        class="second-element"
-      />
-      <Hero v-else as="div" layout-id="rectangle" class="element" />
-    </div>
+    <Motion
+      v-if="showSecond"
+      :layout="true"
+      class="element"
+      layout-id="rectangle"
+    />
+    <Motion
+      v-else
+      :layout="true"
+      layout-id="rectangle"
+      class="second-element"
+    />
   </div>
 </template>
 
-<style>
+<style scoped>
+@import 'tailwindcss/theme' theme(reference);
+
 .wrapper {
   display: grid;
   place-items: center;
   height: 100%;
   width: 100%;
+  @apply gap-20;
 }
 
 .element {
@@ -43,8 +42,8 @@ const [showSecond, toggleShowSecond] = useToggle(false)
 .second-element {
   height: 96px;
   width: 96px;
-  background: #2dd4bf;
-  border-radius: 24px;
+  background: #fad658;
+  border-radius: 12px;
 }
 
 .button {
